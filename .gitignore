@@ -1,0 +1,6 @@
+*.xml
+*.h5
+theirCase/
+plots/
+tallies.out
+
