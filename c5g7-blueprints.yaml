@@ -1,174 +1,107 @@
 # Simple description of the C5G7 benchmark problem
-# General description from: https://www.oecd-nea.org/science/docs/2003/nsc-doc2003-16.pdf
-# Composition/dimensions description from: https://www.oecd-nea.org/science/docs/1996/nsc-doc96-02-rev2.pdf
+# General description from: https://www.oecd-nea.org/upload/docs/application/pdf/2019-12/nsc-doc2003-16.pdf
+# Composition/dimensions description from: https://www.oecd-nea.org/upload/docs/application/pdf/2020-01/nsc-doc96-02-rev2.pdf
 # start-custom-isotopics
 custom isotopics:
+    # NEA/NSC/DOC(96)2 Table 2 - Isotopic Distributions for each medium
     mox low: # 4.3%
         input format: number densities
-        U235: 5.00E-5
-        U238: 2.21E-2
-        PU238: 1.50E-5
-        PU239: 5.80E-4
-        PU240: 2.40E-4
-        PU241: 9.80E-5
-        PU242: 5.40E-5
-        AM241: 1.30E-5
-        O: 4.63E-2
+        U235: 2.875347222222222e-05
+        U238: 0.01270903472222222
+        PU238: 8.626041666666665e-06
+        PU239: 0.00033354027777777773
+        PU240: 0.00013801666666666664
+        PU241: 5.635680555555555e-05
+        PU242: 3.1053749999999994e-05
+        AM241: 7.475902777777776e-06
+        O: 0.026625715277777774
+        ZR: 0.007505977366255143
+        AL27: 0.011599794238683132
     mox medium: # 7.0%
         input format: number densities
-        U235: 5.00E-5
-        U238: 2.21E-2
-        PU238: 2.40E-5
-        PU239: 9.30E-4
-        PU240: 3.90E-4
-        PU241: 1.52E-4
-        PU242: 8.40E-5
-        AM241: 2.00E-5
-        O: 4.63E-2
+        U235: 2.875347222222222e-05
+        U238: 0.01270903472222222
+        PU238: 8.626041666666665e-06
+        PU239: 0.00033354027777777773
+        PU240: 0.00013801666666666664
+        PU241: 5.635680555555555e-05
+        PU242: 3.1053749999999994e-05
+        AM241: 7.475902777777776e-06
+        O: 0.026625715277777774
+        ZR: 0.007505977366255143
+        AL27: 0.011599794238683132
     mox high: # 8.7%
         input format: number densities
-        U235: 5.00E-5
-        U238: 2.21E-2
-        PU238: 3.00E-5
-        PU239: 1.16E-3
-        PU240: 4.90E-4
-        PU241: 1.90E-4
-        PU242: 1.05E-4
-        AM241: 2.50E-5
-        O: 4.63E-2
+        U235: 2.875347222222222e-05
+        U238: 0.01270903472222222
+        PU238: 8.626041666666665e-06
+        PU239: 0.00033354027777777773
+        PU240: 0.00013801666666666664
+        PU241: 5.635680555555555e-05
+        PU242: 3.1053749999999994e-05
+        AM241: 7.475902777777776e-06
+        O: 0.026625715277777774
+        ZR: 0.007505977366255143
+        AL27: 0.011599794238683132
     UO2:
         input format: number densities
-        U235: 8.65e-4
-        U238: 2.225E-2
-        O: 4.622E-2
+        U235: 0.0004974350694444444
+        U238: 0.012795295138888886
+        O: 0.026579709722222216
+        ZR: 0.007505977366255143
+        AL27: 0.011599794238683132
     moderator:
         input format: number densities
         H: 6.70e-2
         O: 3.35E-2
         B: 2.78E-5
-    Zr clad:
+    guide tube:
         input format: number densities
-        ZR: 4.30E-2
-    Al clad:
-        input format: number densities
-        AL27: 6.00e-2
+        AL27: 0.036213991769547316
+        H: 0.008454642422739012
+        O: 0.004227321211369506
+        B: 3.508045661972307e-06
     fission chamber:
-        # Fission Chamber composition isn't well defined so this is a guess...
-        # U235 density is based on Macros of UO2 for fission XS in group 3. Group 3
-        # was chosen because it is below the U-238 fast fission cutoff, but also the
-        # U-235 fission cross section is not high enough the self shielding will play
-        # a large role. This assuming U235 is the only fissioning isotope. Assuming the
-        # fission chamber is ~90% enriched (90.9% by atom but wanted only 1 sig fig).
-        # Had very similar macro absorption XS as guide tube, so using same
-        # Al and water with just a little U.
         input format: number densities
-        H: 6.70e-2
-        O: 3.35E-2
-        B: 2.87E-5
-        U235: 1.0e-8
-        #U235: 6.0e-8
-        #U238: 6.0e-9
+        AL27: 0.036213991769547316
+        H: 0.008454642422739012
+        O: 0.004227321211369506
+        B: 3.508045661972307e-06
+        U235: 1.2618869287670166e-09
 # end-custom-isotopics
 blocks:
     uo2: &block_uo2
+        # NEA/NSC/DOC(96)2 Table 1 - Cell geometries
         grid name: UO2 grid
         fuel:
             shape: Circle
-            material: Custom
+            material: UO2
             isotopics: UO2
             Tinput: 25.0
             Thot: 25.0
-            od: .8190
-            latticeIDs: [U]
-        gap 1: &fuel_gap_1
-            shape: Circle
-            material: Void
-            Tinput: 25.0
-            Thot: 25.0
-            id: fuel.od
-            od: zirconium clad.id
-            latticeIDs: [U]
-        zirconium clad: &clad_Zr
-            shape: Circle
-            material: Custom
-            isotopics: Zr clad
-            Tinput: 25.0
-            Thot: 25.0
-            id: .8360
-            od: .9500
-            latticeIDs: [U]
-        gap 2: &fuel_gap_2
-            shape: Circle
-            material: Void
-            Tinput: 25.0
-            Thot: 25.0
-            id: zirconium clad.od
-            od: aluminum clad.id
-            latticeIDs: [U]
-        aluminum clad: &clad_Al
-            # NEA/NSC/DOC(96)2 Documents:
-            # "This clad is used to simulate hot conditions at room temperature
-            # (decrease the moderation ratio)"
-            shape: Circle
-            material: Custom
-            isotopics: Al clad
-            Tinput: 25.0
-            Thot: 25.0
-            id: .9700
             od: 1.0800
             latticeIDs: [U]
         moderator: &moderator
             shape: DerivedShape
-            material: Custom
+            material: SaturatedWater
             isotopics: moderator
             Tinput: 450.0
             Thot: 450.0
-        # Moderator within the guide tube    
-        inner moderator guide tube: &guide_tube_moderator
-            shape: Circle
-            material: Custom
-            isotopics: moderator
-            Tinput: 25.0
-            Thot: 25.0
-            od: guide tube.id
-            latticeIDs: [GT]
         guide tube: &guide_tube
             shape: Circle
             material: Custom
-            isotopics: Al clad
+            isotopics: guide tube
             Tinput: 25.0
             Thot: 25.0
-            id: .6800
             od: 1.0800
             latticeIDs: [GT]
-        fission chamber guide tube: &fission_chamber_guide_tube
-            <<: *guide_tube
-            # Avoid giving this the same flag as "guide tube" by implementing
-            # a custom flag. This is done to distinguish the "fission chamber guide tube"
-            # from the regular "guide tube". This demonstrates the use of setting
-            # flags directly rather than relying on them to be implied based on the
-            # name.
-            flags: fission chamber structure
-            latticeIDs: [FC]
         fission chamber: &fission_chamber
-            shape: Circle
-            material: Custom
-            isotopics: Al clad
-            Tinput: 25.0
-            Thot: 25.0
-            id: .6800
-            od: 1.0800
-            latticeIDs: [FC]
-        inner moderator FC: &fission_chamber_mod
-            # No documentation of this either, but assuming fission chamber
-            # has same od as fuel, so there needs to be something in the gap.
             shape: Circle
             material: Custom
             isotopics: fission chamber
             Tinput: 25.0
             Thot: 25.0
-            #id: fission chamber.od
-            od: guide tube.id
+            od: 1.0800
             latticeIDs: [FC]
         pitch: &pitch
         # dummy component for assembly sizing
@@ -188,54 +121,37 @@ blocks:
         grid name: MOX grid
         mox low fuel:
             shape: Circle
-            material: Custom
+            material: UO2
             isotopics: mox low
             Tinput: 25.0
             Thot: 25.0
-            od: .8190
+            od: 1.08
             latticeIDs: [ML]
         mox medium fuel:
             shape: Circle
-            material: Custom
+            material: UO2
             isotopics: mox medium
             Tinput: 25.0
             Thot: 25.0
-            od: .8190
+            od: 1.08
             latticeIDs: [MM]
         mox high fuel:
             shape: Circle
-            material: Custom
+            material: UO2
             isotopics: mox high
             Tinput: 25.0
             Thot: 25.0
-            od: .8190
+            od: 1.08
             latticeIDs: [MH]
-        void 1:
-            <<: *fuel_gap_1
-            id: mox low fuel.od
-            latticeIDs: [ML, MM, MH]
-        zirconium clad:
-            <<: *clad_Zr
-            latticeIDs: [ML, MM, MH]
-        void 2:
-            <<: *fuel_gap_2
-            latticeIDs: [ML, MM, MH]
-        aluminum clad:
-             # See Aluminum Clad note above about why there are 2 clads.
-            <<: *clad_Al
-            latticeIDs: [ML, MM, MH]
         moderator: *moderator
-        inner moderator GT: *guide_tube_moderator
         guide tube: *guide_tube
-        fission chamber guide tube: *fission_chamber_guide_tube
         fission chamber: *fission_chamber
-        moderator fission chamber: *fission_chamber_mod
         pitch: *pitch
 # end-block-mox
     moderator: &block_mod
         moderator:
             shape: Square
-            material: Custom
+            material: SaturatedWater
             isotopics: moderator
             Tinput: 25.0
             Thot: 25.0
@@ -363,7 +279,7 @@ nuclide flags:
     O: 
         burn: false
         xs: true
-        expandTo: ["O16", "O17", "O18"] # O18 is not in many nuclear data sets.
+        expandTo: ["O16", "O17"] # O18 is not in many nuclear data sets.
     B: {burn: false, xs: true}
     AL: {burn: false, xs: true}
     ZR: {burn: false, xs: true}

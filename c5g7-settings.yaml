@@ -16,12 +16,14 @@ settings:
     armi: uncontrolled
   verbosity: info
   OpenMCExePath: openmc
+  energyMode: continuous-energy
   openmcVerbosity: 7
-  nParticles: 40000
-  nBatches: 1000
-  nInactiveBatches: 300
-  groupStructure: "ARMI33"
-  tallyMeshDimension: [1500,1500,1]
-  entropyMeshDimension: [8,8,8]
+  nParticles: 10000
+  nBatches: 300
+  nInactiveBatches: 10
+  groupStructure: "CINDER63"
+  tallyMeshDimension: [1000,1000,1]
+  entropyMeshDimension: [4,4,4]
   nOMPThreads: 72
   nMPIProcesses: 1
+  verticalSymmetry: True
